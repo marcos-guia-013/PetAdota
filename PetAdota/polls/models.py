@@ -20,7 +20,7 @@ class Animal(models.Model):
     data_nasc = models.DateField()
     descricao = models.TextField(max_length=100)
     adotado = models.BooleanField(default=False)
-
+    foto = models.URLField(max_length=1000, blank=True, null=True)
     def __str__(self):
         return f"{self.get_especie_display()} - {self.descricao}"
 
@@ -51,16 +51,19 @@ class Usuario(models.Model):
 
 class OfertaDoacao(models.Model):
     id_ofertaDoacao = models.AutoField(primary_key=True)
-    doador = models.ForeignKey(Usuario, on_delete=models.CASCADE) 
+    doador = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
     endereco = models.CharField(max_length=100)
-    data_criacao = models.DateTimeField(auto_now_add=True)               
+    data_criacao = models.DateTimeField(auto_now_add=True)
     descricao = models.TextField(blank=True, null=True)
     status = models.CharField(
-        max_length=3, 
-        choices=[('DIS', 'Disponível'), ('PRC', 'Em Processo'), ('ADT', 'Adotado')], 
+        max_length=3,
+        choices=[('DIS', 'Disponível'), ('PRC', 'Em Processo'), ('ADT', 'Adotado')],
         default='DIS'
     )
+
+    def __str__(self):
+        return f"{self.animal} - {self.doador}"
 
 class PedidoDoacao(models.Model):
 
