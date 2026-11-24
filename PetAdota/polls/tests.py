@@ -30,7 +30,7 @@ class UsuarioTest(TestCase):
 
     def test_usuario_valido(self):
         form = UsuarioForm(data={
-            "cpf": "123.456.789-00",
+            "cpf": "12345678900",
             "nome": "Usuario Teste",
             "numero": "82999999999",
             "email": "teste@example.com"

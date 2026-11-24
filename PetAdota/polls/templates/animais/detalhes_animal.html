@@ -27,13 +27,17 @@
     {% endif %}
 </p>
 
-<a href="{% url 'polls:atualizar_animal' animal.pk %}">
-    Atualizar informações
-</a>
+{% if user.is_authenticated and animal.responsavel.conta_id == user.id %}
+    <a href="{% url 'polls:atualizar_animal' animal.pk %}">
+        Atualizar informações
+    </a>
+{% endif %}
 
-<a href="{% url 'polls:deletar_animal' animal.pk %}">
-    Excluir animal
-</a>
+{% if user.is_authenticated and animal.responsavel.conta_id == user.id and not animal.ofertadoacao_set.exists %}
+    <a href="{% url 'polls:deletar_animal' animal.pk %}">
+        Excluir animal
+    </a>
+{% endif %}
 
 <a href="{% url 'polls:listar_animais' %}">
     Voltar para a listagem

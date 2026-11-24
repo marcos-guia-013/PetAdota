@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -35,6 +36,7 @@
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         nav a {
@@ -104,7 +106,20 @@
             <a href="{% url 'polls:listar_ofertas' %}">Início</a>
             <a href="{% url 'polls:listar_animais' %}">Animais</a>
             <a href="{% url 'polls:listar_ofertas' %}">Ofertas</a>
-            <a href="{% url 'polls:listar_pedidos' %}">Pedidos</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'polls:listar_pedidos' %}">Pedidos</a>
+
+                <span>Olá, {{ user.username }}!</span>
+
+                <form method="post" action="{% url 'polls:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Sair</button>
+                </form>
+            {% else %}
+                <a href="{% url 'polls:login' %}">Entrar</a>
+                <a href="{% url 'polls:cadastro' %}">Criar conta</a>
+            {% endif %}
         </nav>
     </header>
 

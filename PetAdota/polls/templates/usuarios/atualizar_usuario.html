@@ -17,4 +17,24 @@
 
 <a href="{% url 'polls:listar_ofertas' %}">Voltar para a página inicial</a>
 
+<script>
+    document.getElementById("id_cpf").addEventListener("input", function() {
+        this.value = this.value.replace(/\D/g, "").slice(0, 11);
+    });
+
+    document.getElementById("id_numero").addEventListener("input", function() {
+        let numero = this.value.replace(/\D/g, "").slice(0, 11);
+
+        if (numero.length > 7) {
+            numero = "(" + numero.slice(0, 2) + ") " + numero.slice(2, 7) + "-" + numero.slice(7);
+        } else if (numero.length > 2) {
+            numero = "(" + numero.slice(0, 2) + ") " + numero.slice(2);
+        } else if (numero.length > 0) {
+            numero = "(" + numero;
+        }
+
+        this.value = numero;
+    });
+</script>
+
 {% endblock %}

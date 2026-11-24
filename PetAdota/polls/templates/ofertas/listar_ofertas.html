@@ -6,7 +6,9 @@
 
 <h1>Ofertas de doação</h1>
 
-<a href="{% url 'polls:criar_oferta' %}">Cadastrar nova oferta</a>
+{% if user.is_authenticated %}
+    <a href="{% url 'polls:criar_oferta' %}">Cadastrar nova oferta</a>
+{% endif %}
 
 <h2>Filtrar ofertas</h2>
 
@@ -39,7 +41,9 @@
 
         <p><strong>Doador:</strong> {{ oferta.doador }}</p>
 
-        <p><strong>Endereço:</strong> {{ oferta.endereco }}</p>
+        {% if user.is_authenticated and oferta.doador.conta_id == user.id %}
+            <p><strong>Endereço:</strong> {{ oferta.endereco }}</p>
+        {% endif %}
 
         <p><strong>Descrição:</strong> {{ oferta.descricao }}</p>
 
@@ -53,9 +57,11 @@
             {{ oferta.get_status_display }}
         </p>
 
-        <a href="{% url 'polls:atualizar_oferta' oferta.pk %}">
-            Atualizar oferta
-        </a>
+        {% if user.is_authenticated and oferta.doador.conta_id == user.id %}
+            <a href="{% url 'polls:atualizar_oferta' oferta.pk %}">
+                Atualizar oferta
+            </a>
+        {% endif %}
 
         <a href="{% url 'polls:detalhes_oferta' oferta.pk %}">
             Ver detalhes

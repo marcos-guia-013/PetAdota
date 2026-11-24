@@ -1,4 +1,6 @@
+
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 
 app_name = "polls"
@@ -22,4 +24,8 @@ urlpatterns = [
     path("pedidos/<int:pk>/", views.DetalhesPedido.as_view(), name="detalhes_pedido"),
     path("pedidos/<int:pk>/atualizar/", views.AtualizarPedido.as_view(), name="atualizar_pedido"),
     path("pedidos/doador/<int:usuario_id>/", views.ListarPedidos.as_view(), name="listar_pedidos_doador"),
+
+    path("cadastro/", views.cadastrar_conta, name="cadastro"),
+    path("login/", auth_views.LoginView.as_view(template_name="usuarios/login.html"), name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 ]

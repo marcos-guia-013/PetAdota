@@ -11,14 +11,22 @@
 
     <p><strong>Animal:</strong> {{ oferta.animal }}</p>
     <p><strong>Doador:</strong> {{ oferta.doador }}</p>
-    <p><strong>Endereço:</strong> {{ oferta.endereco }}</p>
+    {% if user.is_authenticated and oferta.doador.conta_id == user.id %}
+        <p><strong>Endereço:</strong> {{ oferta.endereco }}</p>
+    {% endif %}
     <p><strong>Descrição:</strong> {{ oferta.descricao }}</p>
     <p><strong>Data de criação:</strong> {{ oferta.data_criacao }}</p>
     <p><strong>Status:</strong> {{ oferta.get_status_display }}</p>
 
-    <a href="{% url 'polls:atualizar_oferta' oferta.pk %}">
-        Atualizar oferta
-    </a>
+    {% if user.is_authenticated and oferta.doador.conta_id == user.id %}
+        <a href="{% url 'polls:atualizar_oferta' oferta.pk %}">
+            Atualizar oferta
+        </a>
+    {% endif %}
+
+    {% if user.is_authenticated and oferta.doador.conta_id != user.id and oferta.status == "DIS" and not oferta.animal.adotado %}
+        <a href="{% url 'polls:criar_pedido' %}">Solicitar adoção</a>
+    {% endif %}
 
     <a href="{% url 'polls:listar_ofertas' %}">
         Voltar

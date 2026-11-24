@@ -30,9 +30,11 @@
         {{ pedido.get_status_pedido_display }}
     </p>
 
-    <a href="{% url 'polls:atualizar_pedido' pedido.pk %}">
-        Atualizar pedido
-    </a>
+    {% if user.is_authenticated and pedido.id_ofertaDoacao.doador.conta_id == user.id %}
+        <a href="{% url 'polls:atualizar_pedido' pedido.pk %}">
+            Atualizar pedido
+        </a>
+    {% endif %}
 
     <a href="{% url 'polls:listar_pedidos' %}">
         Voltar

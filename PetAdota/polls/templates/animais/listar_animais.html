@@ -6,7 +6,9 @@
 
 <h1>Animais disponíveis</h1>
 
-<a href="{% url 'polls:cadastro_animal' %}">Cadastrar novo animal</a>
+{% if user.is_authenticated %}
+    <a href="{% url 'polls:cadastro_animal' %}">Cadastrar novo animal</a>
+{% endif %}
 
 {% for animal in animais %}
 
@@ -34,13 +36,17 @@
             Ver detalhes
         </a>
 
-        <a href="{% url 'polls:atualizar_animal' animal.pk %}">
-            Atualizar
-        </a>
+        {% if user.is_authenticated and animal.responsavel.conta_id == user.id %}
+            <a href="{% url 'polls:atualizar_animal' animal.pk %}">
+                Atualizar
+            </a>
+        {% endif %}
 
-        <a href="{% url 'polls:deletar_animal' animal.pk %}">
-            Excluir
-        </a>
+        {% if user.is_authenticated and animal.responsavel.conta_id == user.id and not animal.ofertadoacao_set.exists %}
+            <a href="{% url 'polls:deletar_animal' animal.pk %}">
+                Excluir
+            </a>
+        {% endif %}
     </article>
 
     <hr>
