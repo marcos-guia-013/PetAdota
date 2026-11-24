@@ -1,0 +1,51 @@
+
+{% extends "base.html" %}
+
+{% block title %}Animais cadastrados{% endblock %}
+
+{% block content %}
+
+<h1>Animais disponíveis</h1>
+
+<a href="{% url 'polls:cadastro_animal' %}">Cadastrar novo animal</a>
+
+{% for animal in animais %}
+
+    <article>
+        <h2>{{ animal.get_especie_display }}</h2>
+
+        <p><strong>Porte:</strong> {{ animal.get_porte_display }}</p>
+        <p><strong>Data de nascimento:</strong> {{ animal.data_nasc }}</p>
+        <p><strong>Descrição:</strong> {{ animal.descricao }}</p>
+
+        <p>
+            <strong>Status:</strong>
+            {% if animal.adotado %}
+                Adotado
+            {% else %}
+                Disponível para adoção
+            {% endif %}
+        </p>
+
+        <a href="{% url 'polls:detalhes_animal' animal.pk %}">
+            Ver detalhes
+        </a>
+
+        <a href="{% url 'polls:atualizar_animal' animal.pk %}">
+            Atualizar
+        </a>
+
+        <a href="{% url 'polls:deletar_animal' animal.pk %}">
+            Excluir
+        </a>
+    </article>
+
+    <hr>
+
+{% empty %}
+
+    <p>Nenhum animal cadastrado.</p>
+
+{% endfor %}
+
+{% endblock %}

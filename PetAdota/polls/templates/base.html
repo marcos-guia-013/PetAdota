@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Sistema de Doação de Animais{% endblock %}</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #315c4b;
+            color: white;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0 0 15px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 8px;
+            min-height: 400px;
+        }
+
+        article {
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        a {
+            color: #315c4b;
+        }
+
+        button {
+            background-color: #315c4b;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #244638;
+        }
+
+        input, select, textarea {
+            padding: 8px;
+            max-width: 100%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+    <header>
+        <h1>Sistema de Doação de Animais</h1>
+
+        <nav>
+            <a href="{% url 'polls:listar_ofertas' %}">Início</a>
+            <a href="{% url 'polls:listar_animais' %}">Animais</a>
+            <a href="{% url 'polls:listar_ofertas' %}">Ofertas</a>
+            <a href="{% url 'polls:listar_pedidos' %}">Pedidos</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Sistema de Doação de Animais</p>
+    </footer>
+
+</body>
+</html>

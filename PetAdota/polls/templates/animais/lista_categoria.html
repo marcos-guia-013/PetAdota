@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Animais por categoria{% endblock %}
+{% block content %}
+<h1>Categoria: {{ categoria|upper }}</h1>
+<p><a href="{% url 'polls:lista_categoria' 'gato' %}">Gatos</a> | <a href="{% url 'polls:lista_categoria' 'cachorro' %}">Cachorros</a> | <a href="{% url 'polls:lista_categoria' 'outro' %}">Outros</a></p>
+{% if lista_itens %}
+<ul>
+{% for item in lista_itens %}
+<li>{{ item.get_especie_display|upper }} — {{ item.descricao }} — <a href="{% url 'polls:detalhes_animal' item.pk %}">Ver detalhes</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>Nenhum registro encontrado.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Atualizar pedido{% endblock %}
+
+{% block content %}
+    <h1>Atualizar pedido</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Salvar alterações</button>
+    </form>
+
+    <a href="{% url 'polls:listar_pedidos' %}">Voltar</a>
+{% endblock %}

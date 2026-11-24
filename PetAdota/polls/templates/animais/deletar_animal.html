@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% block title %}Excluir animal{% endblock %}
+
+{% block content %}
+
+<h1>Excluir animal</h1>
+
+<p>
+    Tem certeza de que deseja excluir o animal
+    <strong>{{ animal.get_especie_display }}</strong>?
+</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <button type="submit">Confirmar exclusão</button>
+</form>
+
+<a href="{% url 'polls:detalhes_animal' animal.pk %}">
+    Cancelar
+</a>
+
+{% endblock %}

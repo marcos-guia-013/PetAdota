@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+
+{% block title %}Atualizar oferta{% endblock %}
+
+{% block content %}
+
+<h1>Atualizar oferta de doação</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Salvar alterações</button>
+</form>
+
+<a href="{% url 'polls:listar_ofertas' %}">
+    Voltar para as ofertas
+</a>
+
+{% endblock %}
+    

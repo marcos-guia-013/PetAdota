@@ -1,0 +1,276 @@
+LISTA 8 – POO – PETADOTA
+Integrantes: Marcos; Fábio Júnio Oliveira da Silva Filho; Guilherme Costa de Sales Sousa
+
+
+QUESTÃO 1
+
+Ao digitar http://localhost:8000/produtos/42/, o navegador envia uma requisição HTTP GET ao servidor Django. O Django procura no urls.py a rota que corresponde ao caminho e captura o valor 42. Em seguida chama a view ligada a essa rota, passando o request e o valor capturado. A view busca o registro no banco por meio do Model, monta o contexto e chama o render() com um template. A DTL processa o template, gera o HTML e a view devolve uma HttpResponse, que o navegador exibe.
+
+a) O urls.py compara o caminho solicitado com as rotas cadastradas, captura os parâmetros da URL (aqui, o ID 42) e encaminha a requisição para a view correspondente.
+
+b) A view recebe obrigatoriamente o objeto request (HttpRequest), além dos parâmetros da rota. Ela deve retornar um objeto HttpResponse, normalmente criado por render().
+
+c) A função get_object_or_404(). Se o produto 42 não existir, ela dispara automaticamente a exceção Http404 e o Django responde com a página de erro 404, sem quebrar o site.
+
+
+QUESTÃO 2
+
+polls/urls.py:
+
+from django.urls import path
+from . import views
+
+app_name = "polls"
+
+urlpatterns = [
+    path("", views.home_view, name="home"),
+    path("animais/<int:pk>/", views.detalhes_animal_view, name="detalhes_animal"),
+    path("animais/categoria/<str:nome_categoria>/", views.lista_categoria, name="lista_categoria"),
+]
+
+
+QUESTÃO 3
+
+polls/views.py:
+
+from django.shortcuts import render, get_object_or_404
+from . import models
+
+def detalhes_animal_view(request, pk):
+    animal = get_object_or_404(models.Animal, pk=pk)
+    contexto = {"animal": animal}
+    return render(request, "animais/detalhes_animal.html", contexto)
+
+
+QUESTÃO 4
+
+polls/templates/base.html:
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Sistema de Doação de Animais{% endblock %}</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #315c4b;
+            color: white;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0 0 15px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 8px;
+            min-height: 400px;
+        }
+
+        article {
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        a {
+            color: #315c4b;
+        }
+
+        button {
+            background-color: #315c4b;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #244638;
+        }
+
+        input, select, textarea {
+            padding: 8px;
+            max-width: 100%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+    <header>
+        <h1>Sistema de Doação de Animais</h1>
+
+        <nav>
+            <a href="{% url 'polls:listar_ofertas' %}">Início</a>
+            <a href="{% url 'polls:listar_animais' %}">Animais</a>
+            <a href="{% url 'polls:listar_ofertas' %}">Ofertas</a>
+            <a href="{% url 'polls:listar_pedidos' %}">Pedidos</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Sistema de Doação de Animais</p>
+    </footer>
+
+</body>
+</html>
+
+polls/templates/animais/detalhes_animal.html:
+
+{% extends "base.html" %}
+
+{% block title %}Detalhes do animal{% endblock %}
+
+{% block content %}
+
+<h1>Detalhes do animal</h1>
+
+<h2>{{ animal.get_especie_display }}</h2>
+
+<p><strong>Porte:</strong> {{ animal.get_porte_display }}</p>
+
+<p><strong>Data de nascimento:</strong> {{ animal.data_nasc }}</p>
+
+<p><strong>Descrição:</strong> {{ animal.descricao }}</p>
+
+<p>
+    <strong>Status:</strong>
+    {% if animal.adotado %}
+        Adotado
+    {% else %}
+        Disponível para adoção
+    {% endif %}
+</p>
+
+<a href="{% url 'polls:atualizar_animal' animal.pk %}">
+    Atualizar informações
+</a>
+
+<a href="{% url 'polls:deletar_animal' animal.pk %}">
+    Excluir animal
+</a>
+
+<a href="{% url 'polls:listar_animais' %}">
+    Voltar para a listagem
+</a>
+
+{% endblock %}
+
+
+QUESTÃO 5
+
+Trecho de polls/templates/animais/lista_categoria.html. O modelo Animal não possui o campo nome, então o filtro |upper foi aplicado ao nome legível da espécie (get_especie_display).
+
+{% if lista_itens %}
+<ul>
+{% for item in lista_itens %}
+<li>{{ item.get_especie_display|upper }} — {{ item.descricao }} — <a href="{% url 'polls:detalhes_animal' item.pk %}">Ver detalhes</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>Nenhum registro encontrado.</p>
+{% endif %}
+
+a) O {% if lista_itens %} verifica se a lista não está vazia; se estiver, o {% else %} exibe "Nenhum registro encontrado.".
+b) O {% for %} percorre a lista e cria um <li> para cada item dentro de um <ul>.
+c) {{ item.get_especie_display|upper }} exibe o nome em letras maiúsculas.
+d) {% url 'polls:detalhes_animal' item.pk %} usa o namespace "polls", o nome da rota e o ID do item.
+
+
+QUESTÃO 6
+
+a) Rota em polls/urls.py:
+
+    path("animais/categoria/<str:nome_categoria>/", views.lista_categoria, name="lista_categoria"),
+
+b) View em polls/views.py:
+
+def lista_categoria(request, nome_categoria):
+    if nome_categoria == "gato":
+        codigo = "GAT"
+    elif nome_categoria == "cachorro":
+        codigo = "CAC"
+    elif nome_categoria == "outro":
+        codigo = "OUT"
+    else:
+        codigo = ""
+
+    animais = models.Animal.objects.filter(especie=codigo, adotado=False)
+    contexto = {"lista_itens": animais, "categoria": nome_categoria}
+    return render(request, "animais/lista_categoria.html", contexto)
+
+c) polls/templates/animais/lista_categoria.html:
+
+{% extends "base.html" %}
+{% block title %}Animais por categoria{% endblock %}
+{% block content %}
+<h1>Categoria: {{ categoria|upper }}</h1>
+<p><a href="{% url 'polls:lista_categoria' 'gato' %}">Gatos</a> | <a href="{% url 'polls:lista_categoria' 'cachorro' %}">Cachorros</a> | <a href="{% url 'polls:lista_categoria' 'outro' %}">Outros</a></p>
+{% if lista_itens %}
+<ul>
+{% for item in lista_itens %}
+<li>{{ item.get_especie_display|upper }} — {{ item.descricao }} — <a href="{% url 'polls:detalhes_animal' item.pk %}">Ver detalhes</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>Nenhum registro encontrado.</p>
+{% endif %}
+{% endblock %}
+
+d) CSRF: a página de listagem usa apenas GET, então não precisa de {% csrf_token %}. A tag é obrigatória dentro de todo <form method="POST">, nos templates cadastro_animal.html, atualizar_animal.html, deletar_animal.html, cadastro_usuario.html, atualizar_usuario.html, cadastro_oferta.html, atualizar_oferta.html, criar_pedido.html e atualizar_pedido.html.
+
+Capturas de tela (inserir as imagens abaixo):
+
+1. http://127.0.0.1:8000/polls/animais/categoria/gato/
+2. http://127.0.0.1:8000/polls/animais/categoria/cachorro/
+3. http://127.0.0.1:8000/polls/animais/categoria/outro/

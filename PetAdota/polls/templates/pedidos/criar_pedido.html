@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Criar pedido{% endblock %}
+
+{% block content %}
+    <h1>Cadastrar pedido de doação</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Cadastrar pedido</button>
+    </form>
+
+    <a href="{% url 'polls:listar_pedidos' %}">Voltar</a>
+{% endblock %}

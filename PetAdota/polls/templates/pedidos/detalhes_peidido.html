@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes do pedido{% endblock %}
+
+{% block content %}
+    <h1>Detalhes do pedido {{ pedido.pk }}</h1>
+
+    <p>
+        <strong>Animal:</strong>
+        {{ pedido.id_ofertaDoacao.animal }}
+    </p>
+
+    <p>
+        <strong>Doador:</strong>
+        {{ pedido.id_ofertaDoacao.doador.nome }}
+    </p>
+
+    <p>
+        <strong>Interessado:</strong>
+        {{ pedido.id_usuario.nome }}
+    </p>
+
+    <p>
+        <strong>Data:</strong>
+        {{ pedido.data_pedido }}
+    </p>
+
+    <p>
+        <strong>Status:</strong>
+        {{ pedido.get_status_pedido_display }}
+    </p>
+
+    <a href="{% url 'polls:atualizar_pedido' pedido.pk %}">
+        Atualizar pedido
+    </a>
+
+    <a href="{% url 'polls:listar_pedidos' %}">
+        Voltar
+    </a>
+{% endblock %}

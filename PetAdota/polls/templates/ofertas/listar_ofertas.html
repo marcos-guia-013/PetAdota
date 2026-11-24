@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+
+{% block title %}Ofertas de doação{% endblock %}
+
+{% block content %}
+
+<h1>Ofertas de doação</h1>
+
+<a href="{% url 'polls:criar_oferta' %}">Cadastrar nova oferta</a>
+
+<h2>Filtrar ofertas</h2>
+
+<nav>
+    <a href="{% url 'polls:listar_ofertas' %}">Todas</a>
+
+    <a href="{% url 'polls:listar_ofertas' %}?status=DIS">
+        Disponíveis
+    </a>
+
+    <a href="{% url 'polls:listar_ofertas' %}?status=PRC">
+        Em processo
+    </a>
+
+    <a href="{% url 'polls:listar_ofertas' %}?status=ADT">
+        Adotados
+    </a>
+</nav>
+
+<hr>
+
+{% for oferta in ofertas %}
+
+    <article>
+        <h2>{{ oferta.animal }}</h2>
+
+        <p><strong>Doador:</strong> {{ oferta.doador }}</p>
+
+        <p><strong>Endereço:</strong> {{ oferta.endereco }}</p>
+
+        <p><strong>Descrição:</strong> {{ oferta.descricao }}</p>
+
+        <p>
+            <strong>Data de criação:</strong>
+            {{ oferta.data_criacao }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ oferta.get_status_display }}
+        </p>
+
+        <a href="{% url 'polls:atualizar_oferta' oferta.pk %}">
+            Atualizar oferta
+        </a>
+
+        <a href="{% url 'polls:detalhes_oferta' oferta.pk %}">
+            Ver detalhes
+        </a>
+    </article>
+
+    <hr>
+
+{% empty %}
+
+    <p>Nenhuma oferta encontrada.</p>
+
+{% endfor %}
+
+{% endblock %}

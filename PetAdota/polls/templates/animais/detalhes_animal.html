@@ -1,0 +1,39 @@
+
+{% extends "base.html" %}
+
+{% block title %}Detalhes do animal{% endblock %}
+
+{% block content %}
+
+<h1>Detalhes do animal</h1>
+
+<h2>{{ animal.get_especie_display }}</h2>
+
+<p><strong>Porte:</strong> {{ animal.get_porte_display }}</p>
+
+<p><strong>Data de nascimento:</strong> {{ animal.data_nasc }}</p>
+
+<p><strong>Descrição:</strong> {{ animal.descricao }}</p>
+
+<p>
+    <strong>Status:</strong>
+    {% if animal.adotado %}
+        Adotado
+    {% else %}
+        Disponível para adoção
+    {% endif %}
+</p>
+
+<a href="{% url 'polls:atualizar_animal' animal.pk %}">
+    Atualizar informações
+</a>
+
+<a href="{% url 'polls:deletar_animal' animal.pk %}">
+    Excluir animal
+</a>
+
+<a href="{% url 'polls:listar_animais' %}">
+    Voltar para a listagem
+</a>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes da oferta{% endblock %}
+
+{% block content %}
+    <h1>Detalhes da oferta</h1>
+
+    <p><strong>Animal:</strong> {{ oferta.animal }}</p>
+    <p><strong>Doador:</strong> {{ oferta.doador }}</p>
+    <p><strong>Endereço:</strong> {{ oferta.endereco }}</p>
+    <p><strong>Descrição:</strong> {{ oferta.descricao }}</p>
+    <p><strong>Data de criação:</strong> {{ oferta.data_criacao }}</p>
+    <p><strong>Status:</strong> {{ oferta.get_status_display }}</p>
+
+    <a href="{% url 'polls:atualizar_oferta' oferta.pk %}">
+        Atualizar oferta
+    </a>
+
+    <a href="{% url 'polls:listar_ofertas' %}">
+        Voltar
+    </a>
+{% endblock %}

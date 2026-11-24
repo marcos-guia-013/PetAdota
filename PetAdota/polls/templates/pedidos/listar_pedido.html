@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Pedidos de doação{% endblock %}
+
+{% block content %}
+    <h1>Pedidos de doação</h1>
+
+    <a href="{% url 'polls:criar_pedido' %}">Cadastrar novo pedido</a>
+
+    {% for pedido in pedidos %}
+        <article>
+            <h2>Pedido {{ pedido.pk }}</h2>
+
+            <a href="{% url 'polls:detalhes_pedido' pedido.pk %}">
+                Ver detalhes
+            </a>
+
+            <a href="{% url 'polls:atualizar_pedido' pedido.pk %}">
+                Atualizar
+            </a>
+        </article>
+        <hr>
+    {% empty %}
+        <p>Nenhum pedido cadastrado.</p>
+    {% endfor %}
+{% endblock %}
