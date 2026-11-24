@@ -29,7 +29,10 @@ class Usuario(models.Model):
         regex=r'^\d{3}\.\d{3}\.\d{3}-\d{2}$',
         message="O CPF deve estar no formato: 000.000.000-00"
     )
-    telefone_regex = RegexValidator(regex=r'^\d{2} \d{5}-\d{4}$')
+    telefone_regex = RegexValidator(
+    regex=r'^\d{11}$',
+    message='Digite o DDD e o número, sem espaços ou símbolos.'
+)
     
     id_usuario = models.AutoField(primary_key=True)
     cpf = models.CharField(
