@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}Animais cadastrados{% endblock %}
@@ -13,6 +12,10 @@
 
     <article>
         <h2>{{ animal.get_especie_display }}</h2>
+
+        {% if animal.foto %}
+            <img src="{{ animal.foto }}" width="200" alt="Foto do animal">
+        {% endif %}
 
         <p><strong>Porte:</strong> {{ animal.get_porte_display }}</p>
         <p><strong>Data de nascimento:</strong> {{ animal.data_nasc }}</p>

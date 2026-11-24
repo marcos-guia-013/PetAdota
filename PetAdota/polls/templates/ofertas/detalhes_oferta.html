@@ -5,6 +5,10 @@
 {% block content %}
     <h1>Detalhes da oferta</h1>
 
+    {% if oferta.animal.foto %}
+        <img src="{{ oferta.animal.foto }}" width="300" alt="Foto do animal">
+    {% endif %}
+
     <p><strong>Animal:</strong> {{ oferta.animal }}</p>
     <p><strong>Doador:</strong> {{ oferta.doador }}</p>
     <p><strong>Endereço:</strong> {{ oferta.endereco }}</p>

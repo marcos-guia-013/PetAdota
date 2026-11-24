@@ -29,7 +29,8 @@ class CriarAnimal(CreateView):
         "porte",
         "data_nasc",
         "descricao",
-        "adotado"
+        "adotado",
+        "foto"
     ]
     template_name = "animais/cadastro_animal.html"
     success_url = reverse_lazy("polls:listar_animais")
@@ -47,7 +48,8 @@ class AtualizarAnimal(UpdateView):
         "porte",
         "data_nasc",
         "descricao",
-        "adotado"
+        "adotado",
+        "foto"
     ]
     template_name = "animais/atualizar_animal.html"
     success_url = reverse_lazy("polls:listar_animais")
