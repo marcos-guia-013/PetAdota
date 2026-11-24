@@ -23,9 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)2n1bd9=(q-+3ik(@$ebfav3igqpf5*^(8i!t+4)opf1x5nmga'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'petadota.vercel.app',
+    'petadota-3dmught62-marcos-5403.vercel.app'
+]
 
 
 # Application definition
