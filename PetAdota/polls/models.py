@@ -18,7 +18,10 @@ class Animal(models.Model):
     especie = models.CharField(max_length=3, choices=Especie.choices)
     porte = models.CharField(max_length=1, choices=Porte.choices)
     data_nasc = models.DateField()
-    descricao = models.TextField(max_length=100)
+    descricao = models.TextField(
+    max_length=500,
+    help_text="Máximo de 500 caracteres."
+)
     adotado = models.BooleanField(default=False)
     foto = models.URLField(max_length=1000, blank=True, null=True)
     def __str__(self):
