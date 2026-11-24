@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, TemplateView, DetailView, DeleteView, UpdateView, FormView
 from . import models
+from .forms import AnimalForm, UsuarioForm, OfertaDoacaoForm, PedidoDoacaoForm
 
 class ListarAnimais(ListView):
     model = models.Animal
@@ -24,14 +25,7 @@ class ListarAnimais(ListView):
 
 class CriarAnimal(CreateView):
     model = models.Animal
-    fields = [
-        "especie",
-        "porte",
-        "data_nasc",
-        "descricao",
-        "adotado",
-        "foto"
-    ]
+    form_class = AnimalForm
     template_name = "animais/cadastro_animal.html"
     success_url = reverse_lazy("polls:listar_animais")
 
@@ -43,14 +37,7 @@ class DetalhesAnimal(DetailView):
 class AtualizarAnimal(UpdateView):
 
     model = models.Animal
-    fields = [
-        "especie",
-        "porte",
-        "data_nasc",
-        "descricao",
-        "adotado",
-        "foto"
-    ]
+    form_class = AnimalForm
     template_name = "animais/atualizar_animal.html"
     success_url = reverse_lazy("polls:listar_animais")
 
@@ -61,13 +48,13 @@ class DeletarAnimal(DeleteView):
 
 class CadastrarUsuario(CreateView):
     model = models.Usuario
-    fields = ["cpf", "nome", "numero", "email"]
+    form_class = UsuarioForm
     template_name = "usuarios/cadastro_usuario.html"
     success_url = reverse_lazy("polls:cadastrar_usuario")
 
 class AtualizarUsuario(UpdateView):
     model = models.Usuario
-    fields = ["cpf", "nome", "numero", "email"]
+    form_class = UsuarioForm
     template_name = "usuarios/atualizar_usuario.html"
     success_url = reverse_lazy("polls:listar_ofertas")
 
@@ -90,13 +77,7 @@ class ListarOfertas(ListView):
 
 class CriarOferta(CreateView):
     model = models.OfertaDoacao
-    fields = [  
-        "doador",
-        "animal",
-        "endereco",
-        "descricao",
-        "status",
-    ]
+    form_class = OfertaDoacaoForm
     template_name = "ofertas/cadastro_oferta.html"
     success_url = reverse_lazy("polls:criar_oferta")
 
@@ -108,13 +89,7 @@ class DetalhesOferta(DetailView):
 class AtualizarOferta(UpdateView):
 
     model = models.OfertaDoacao
-    fields = [  
-        "doador",
-        "animal",
-        "endereco",
-        "descricao",
-        "status",
-    ]
+    form_class = OfertaDoacaoForm
     template_name = "ofertas/atualizar_oferta.html"
     success_url = reverse_lazy("polls:listar_ofertas")
 
@@ -135,11 +110,7 @@ class ListarPedidos(ListView):
 class CriarPedido(CreateView):
     model = models.PedidoDoacao
 
-    fields = [
-        "id_ofertaDoacao",
-        "id_usuario",
-        "status_pedido",
-    ]
+    form_class = PedidoDoacaoForm
 
     template_name = "pedidos/criar_pedido.html"
     success_url = reverse_lazy("polls:criar_pedido")
@@ -152,11 +123,7 @@ class DetalhesPedido(DetailView):
 class AtualizarPedido(UpdateView):
 
     model = models.PedidoDoacao
-    fields = [  
-        "id_ofertaDoacao",
-        "id_usuario",
-        "status_pedido",
-    ]
+    form_class = PedidoDoacaoForm
     template_name = "pedidos/atualizar_pedido.html"
     success_url = reverse_lazy("polls:listar_pedidos")
 
